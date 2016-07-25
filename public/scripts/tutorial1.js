@@ -1,0 +1,61 @@
+var data = [
+  {id: 1, author: "Pete Hunt", text: "This is one comment"},
+  {id: 1, author: "Bruce Wayne", text: "This is *another* comment"}
+];
+var CommentBox = React.createClass({
+  render : function(){
+    return(
+      <div className="commentBox">
+        <h1>Comments</h1>
+        <CommentList data={this.props.data} />
+        <CommentForm />
+      </div>
+    );
+  }
+});
+
+var CommentList = React.createClass({
+  render: function(){
+    return (
+      <div className="commentList">
+      <Comment author="Pete hunt">This is one comment</Comment>
+      <Comment author="Heather Fay">This is another comment</Comment>
+      </div>
+    );
+  }
+});
+
+var CommentForm = React.createClass({
+  render: function() {
+    return (
+      <div className="commentForm">
+        Hello, worlddmklds
+      </div>
+    );
+  }
+});
+
+var Comment = React.createClass({
+  rawMarkup: function() {
+    var md = new Remarkable();
+    var rawMarkup = md.render(this.props.children.toString());
+    return { __html: rawMarkup };
+  },
+  render: function(){
+    var md = new Remarkable();
+    return(
+      <div className="comment">
+        <h2 className="commentAuthor">
+          {this.props.author}
+        </h2>
+        {/*{this.props.children}*/}
+        {/*{md.render(this.props.children.toString())}*/}
+        <span dangerouslySetInnerHTML = {this.rawMarkup()} />
+      </div>
+    );
+  }
+});
+
+ReactDOM.render(
+  <CommentBox data={data} />, document.getElementById('content')
+);
